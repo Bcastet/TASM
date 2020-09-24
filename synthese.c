@@ -42,7 +42,9 @@ sound_file_write (double *s, FILE *fp)
 void 
 naive_sinus(double *s,double f,int current){
     for(int i=current;i<current + N;i++){
-        s[i-current] += sin(i * 2 * M_PI * (1./44100)* f );
+      //printf("%d\n",i-current);
+      s[i-current] += sin((1./44100) * i * 2 * M_PI * f );
+      //printf("%f\n",s[i-current]);
     }
 }
 
@@ -69,7 +71,7 @@ main (int argc, char *argv[])
 {
   int i;
   FILE *output;
-  double s[N];
+  
   output = sound_file_open_write ();
   if (argc != 1)
     {
@@ -79,8 +81,12 @@ main (int argc, char *argv[])
   int current = 0;
   while (current<FE*DUREE)
   { 
-    double f[4] = {440,870,1230,5600};
-    multiple_sinus_synthesis(s,f,4,current);
+    double s[N];
+    for(int i=0;i<N;i++)
+      s[i] = 0;
+    double f[4] = {440,5000,6500,4999};
+    
+    fm_synthesis(s,1,440,5000,300,current);
     
     sound_file_write (s, output);
     
