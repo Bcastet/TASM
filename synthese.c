@@ -63,6 +63,7 @@ void
 fm_synthesis(double *s,double a,double fc,double fm,double i,int current){
     for(int t=current;t<N+current;t++){
         s[t-current] = a * sin(2 * M_PI * fc * t * i + i * sin( 2 * M_PI * fm * t));
+        printf("%f\n", s[t-current]);
     }
 }
 
@@ -86,7 +87,7 @@ main (int argc, char *argv[])
       s[i] = 0;
     double f[4] = {440,5000,6500,4999};
     
-    fm_synthesis(s,1,440,5000,300,current);
+    fm_synthesis(s,1000,440,5000,300,current);
     
     sound_file_write (s, output);
     
